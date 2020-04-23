@@ -76,5 +76,15 @@ drupal site:install standard \
         --account-pass="admin" \
         --account-mail="admin@site.com" \
         --no-interaction
+echo '$settings["trusted_host_patterns"] = [ "^localhost$" ];' >> /var/www/html/drupal/web/sites/default/settings.php
+
+# Set filesystem permissions
 cd /var/www/html
-chmod -R 777 drupal
+chmod -R 775 drupal
+cd /var/www/html/drupal/web/sites/default
+chmod -R 777 files
+
+# Shake the dust off
+drupal cron:execute
+drupal cache:rebuild
+service apache2 restart
