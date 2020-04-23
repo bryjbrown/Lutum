@@ -60,6 +60,9 @@ source /root/.profile
 
 # Install Drupal
 cd /var/www/html/drupal
+rm composer.*
+cp /vagrant/composer.json .
+composer install
 drupal site:install standard \
         --langcode="en" \
         --db-type="mysql" \
@@ -73,3 +76,5 @@ drupal site:install standard \
         --account-pass="admin" \
         --account-mail="admin@site.com" \
         --no-interaction
+cd /var/www/html
+chmod -R 777 drupal
