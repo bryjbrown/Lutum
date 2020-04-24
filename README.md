@@ -1,2 +1,2 @@
-# vagrant-tome
-A Vagrant VM that builds a Drupal 8 instance configured with Tome to build static sites
+# Lutum
+A virtual environment for creating semantically rich static sites using Drupal 8.
