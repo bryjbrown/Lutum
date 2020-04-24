@@ -6,6 +6,7 @@ dependencies:
     - lunr.lunr_search.default
   module:
     - lunr
+    - system
   theme:
     - bartik
 id: lunrsearchform
@@ -20,4 +21,9 @@ settings:
   provider: lunr
   label_display: '0'
   lunr_search_id: default
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: /search
+    negate: true
+    context_mapping: {  }
