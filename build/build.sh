@@ -42,7 +42,7 @@ echo "AddType text/html .php" >> /etc/apache2/apache2.conf
 sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/apache2/apache2.conf
 sed -i -e 's/\/var\/www\/html/\/var\/www\/html\/drupal\/web/g' /etc/apache2/sites-available/000-default.conf
 rm /etc/php/7.2/apache2/php.ini
-cp /vagrant/apache.php.ini /etc/php/7.2/apache2/php.ini
+cp /vagrant/build/apache.php.ini /etc/php/7.2/apache2/php.ini
 service apache2 restart
 
 # Install latest & greatest version of Composer
@@ -61,7 +61,7 @@ source /root/.profile
 # Install Drupal
 cd /var/www/html/drupal
 rm composer.*
-cp /vagrant/composer.json .
+cp /vagrant/build/composer.json .
 composer install
 drupal site:install standard \
         --langcode="en" \
@@ -76,15 +76,20 @@ drupal site:install standard \
         --account-pass="admin" \
         --account-mail="admin@site.com" \
         --no-interaction
-echo '$settings["trusted_host_patterns"] = [ "^localhost$" ];' >> /var/www/html/drupal/web/sites/default/settings.php
 
 # Set filesystem permissions
+cd /var/www/html/drupal/web/sites/default
+rm settings.php
+cp /vagrant/build/settings.php .
 cd /var/www/html
 chmod -R 775 drupal
 cd /var/www/html/drupal/web/sites/default
 chmod -R 777 files
 
-# Shake the dust off
+# Prepare for lift off 
+drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
+drush config:set 'system.site' uuid 168b3c20-c0aa-45e1-b3ac-ccf8143f7a44 --no-interaction
+drupal config:import --no-interaction
 drupal cron:execute
 drupal cache:rebuild
 service apache2 restart
