@@ -82,9 +82,10 @@ cd /var/www/html/drupal/web/sites/default
 rm settings.php
 cp /vagrant/build/settings.php .
 cd /var/www/html
-chmod -R 775 drupal
-cd /var/www/html/drupal/web/sites/default
-chmod -R 777 files
+chmod -R 777 drupal
+cd /var/www/html/drupal/web/sites
+chmod -R 775 default
+chmod -R 777 default/files 
 
 # Prepare for lift off 
 drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
