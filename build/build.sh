@@ -54,15 +54,9 @@ composer global require zaporylie/composer-drupal-optimizations
 # Set up Drupal codebase
 cd /var/www/html
 rm index.html
-composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction 
-echo "PATH=/var/www/html/drupal/vendor/bin/:$PATH" >> /root/.profile
-source /root/.profile
-
-# Install Drupal
-cd /var/www/html/drupal
-rm composer.*
-cp /vagrant/build/composer.json .
+composer create-project staysis/staysis-project:8.x-dev drupal --stability dev --no-interaction 
 composer install
+echo "PATH=/var/www/html/drupal/vendor/bin/:$PATH" >> /root/.profile; source /root/.profile
 drupal site:install staysis \
         --langcode="en" \
         --db-type="mysql" \
@@ -88,9 +82,5 @@ chmod -R 775 default
 chmod -R 777 default/files 
 
 # Prepare for lift off 
-drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
-drush config:set 'system.site' uuid 168b3c20-c0aa-45e1-b3ac-ccf8143f7a44 --no-interaction
-drupal config:import --no-interaction
-drupal cron:execute
 drupal cache:rebuild
 service apache2 restart
