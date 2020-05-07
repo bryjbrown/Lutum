@@ -55,8 +55,8 @@ composer global require zaporylie/composer-drupal-optimizations
 cd /var/www/html
 rm index.html
 composer create-project staysis/staysis-project:8.x-dev drupal --stability dev --no-interaction 
-composer install
 echo "PATH=/var/www/html/drupal/vendor/bin/:$PATH" >> /root/.profile; source /root/.profile
+cd /var/www/html/drupal
 drupal site:install staysis \
         --langcode="en" \
         --db-type="mysql" \
