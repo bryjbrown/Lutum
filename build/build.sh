@@ -63,7 +63,7 @@ cd /var/www/html/drupal
 rm composer.*
 cp /vagrant/build/composer.json .
 composer install
-drupal site:install standard \
+drupal site:install staysis \
         --langcode="en" \
         --db-type="mysql" \
         --db-host="localhost" \
